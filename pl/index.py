@@ -1,4 +1,4 @@
-from be.Register_User import Register
+from be.Register_User import Register_User
 from tkinter import messagebox, ttk
 from tkinter import *
 
@@ -8,6 +8,11 @@ class App(Frame):
         super().__init__(screen)
         self.screen = screen
         self.text_screen()
+
+    # function
+    def OneClickedRegister(self):
+        user = Register_User(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(), self.txtage.get())
+        user.add_user()
 
 # screen text
     def text_screen(self):
@@ -37,7 +42,7 @@ class App(Frame):
 
         # Button Screen
 
-        btnscreen = Button(self.screen, text="Register", width=15)
+        btnscreen = Button(self.screen, text="Register", width=15, command=self.OneClickedRegister)
         btnscreen.configure(bg="green", fg="black", bd=3, justify="center")
         btnscreen.place(x=310, y=250)
 
