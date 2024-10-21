@@ -28,6 +28,18 @@ class App(Frame):
             user.add_user()
             messagebox.showinfo("Registered", "Registered")
 
+        # clear
+    def clear_name(self, e):
+        self.name.set('')
+
+    def clear_family(self, e):
+        self.family.set('')
+
+    def clear_filed(self, e):
+        self.filde.set('')
+
+    def clear_age(self, e):
+        self.age.set('')
 # screen text
     def text_screen(self):
         self.name = StringVar()
@@ -35,24 +47,28 @@ class App(Frame):
         self.txtname.configure(bg="white", fg="black", bd=3, justify="center")
         self.txtname.place(x=300, y=50)
         self.name.set("Username")
+        self.txtname.bind("<Button-1>", self.clear_name)
 
         self.family = StringVar()
         self.txtfamily = Entry(self.screen, textvariable=self.family)
         self.txtfamily.configure(bg="white", fg="black", bd=3, justify="center")
         self.txtfamily.place(x=300, y=100)
         self.family.set("Family")
+        self.txtfamily.bind("<Button-1>", self.clear_family)
 
         self.filde = StringVar()
         self.txtfilde= Entry(self.screen, textvariable=self.filde)
         self.txtfilde.configure(bg="white", fg="black", bd=3, justify="center")
         self.txtfilde.place(x=300, y=150)
         self.filde.set("Filed")
+        self.txtfilde.bind("<Button-1>", self.clear_filed)
 
         self.age = StringVar()
         self.txtage = Entry(self.screen, textvariable=self.age)
         self.txtage.configure(bg="white", fg="black", bd=3, justify="center")
         self.txtage.place(x=300, y=200)
         self.age.set("Year")
+        self.txtage.bind("<Button-1>", self.clear_age)
 
         # Button Screen
 
