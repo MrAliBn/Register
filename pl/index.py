@@ -33,4 +33,12 @@ class App(Frame):
         self.txtage = Entry(self.screen, textvariable=self.age)
         self.txtage.configure(bg="white", fg="black", bd=3, justify="center")
         self.txtage.place(x=300, y=200)
-        self.age.set("Username")
+        self.age.set("Age")
+
+        # Button Screen
+
+        btnscreen = Button(self.screen, text="Register", width=15)
+        btnscreen.configure(bg="green", fg="black", bd=3, justify="center")
+        btnscreen.place(x=310, y=250)
+
+
