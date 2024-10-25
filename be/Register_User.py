@@ -1,10 +1,10 @@
 import mysql.connector
 
 connection = mysql.connector.connect(
-    host='localhost',  # آدرس سرور MySQL
-    database='Register',  # نام دیتابیس
-    user='root',  # نام کاربری
-    password='7804'  # رمز عبور کاربر
+    host='localhost',
+    database='Register',
+    user='root',
+    password='7804'
 )
 
 
