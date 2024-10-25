@@ -45,6 +45,17 @@ class App(Frame):
         self.btnedit.place_forget()
         self.btncancel.place_forget()
 
+    # Delete
+
+    def OneClickedDelete(self):
+        r = Register_User(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(), self.txtage.get())
+        s = messagebox.askyesno("Warning", f"Are you sure you want to delete? {self.id.get()} {self.txtname.get()}")
+        if s:
+            result = r.delete_user(int(self.id.get()))
+            if result:
+                messagebox.showinfo("Deleted", "Deleted")
+                self.clear_table()
+                self.insert_table()
         # clear
 
     def clear_name(self, e):
@@ -80,6 +91,7 @@ class App(Frame):
     def ClickTable(self, e):
         selection = self.table.selection()
         if selection != ():
+            self.id.set(self.table.item(selection)['values'][0])
             self.name.set(self.table.item(selection)['values'][1])
             self.family.set(self.table.item(selection)['values'][2])
             self.filde.set(self.table.item(selection)['values'][3])
@@ -122,6 +134,10 @@ class App(Frame):
         self.age.set("Year")
         self.txtage.bind("<Button-1>", self.clear_age)
 
+        self.id = StringVar()
+        self.txtid = Entry(self.screen, textvariable=self.id)
+        self.txtid.place_forget()
+
         # Button Screen
 
         # Register Button
@@ -138,7 +154,7 @@ class App(Frame):
 
         # Delete Button
 
-        self.btndelete = Button(self.screen, text="Delete", width=5)
+        self.btndelete = Button(self.screen, text="Delete", width=5, command=self.OneClickedDelete)
         self.btndelete.configure(bg="red", fg="black", bd=1, justify="center")
         self.btndelete.place_forget()
 

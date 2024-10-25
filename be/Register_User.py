@@ -30,3 +30,11 @@ class Register_User:
         records = cursor.fetchall()
         return records
 
+    def delete_user(self, id):
+        cursor = connection.cursor()
+        sql_insert_query = """DELETE from Register_User where id = %s"""
+        cursor.execute(sql_insert_query, (id,))
+        connection.commit()
+        cursor.close()
+        return True
+
