@@ -17,14 +17,16 @@ class Register_User:
 
     def add_user(self):
         cursor = connection.cursor()
-
         sql_insert_query = """INSERT INTO Register_User (name, family, filde, age) 
                                       VALUES (%s, %s, %s, %s)"""
-        # داده‌های کاربر
         record_to_insert = (self.name, self.family, self.filed, self.age)
-
-        # اجرای دستور SQL
         cursor.execute(sql_insert_query, record_to_insert)
-
-        # تایید تغییرات در دیتابیس
         connection.commit()
+
+    def all_users(self):
+        cursor = connection.cursor()
+        sql_insert_query = """SELECT * FROM Register_User"""
+        cursor.execute(sql_insert_query)
+        records = cursor.fetchall()
+        return records
+
