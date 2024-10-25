@@ -30,43 +30,48 @@ class App(Frame):
 
         # clear
     def clear_name(self, e):
-        self.name.set('')
+        if self.name.get() == "Username":
+            self.name.set('')
 
     def clear_family(self, e):
-        self.family.set('')
+        if self.family.get() == "Family":
+            self.family.set('')
 
     def clear_filed(self, e):
-        self.filde.set('')
+        if self.filde.get() == "Filed":
+            self.filde.set('')
 
     def clear_age(self, e):
-        self.age.set('')
+        if self.age.get() == "Year":
+            self.age.set('')
+
 # screen text
     def text_screen(self):
         self.name = StringVar()
         self.txtname = Entry(self.screen, textvariable=self.name)
         self.txtname.configure(bg="white", fg="black", bd=3, justify="center")
-        self.txtname.place(x=300, y=50)
+        self.txtname.place(x=100, y=70)
         self.name.set("Username")
         self.txtname.bind("<Button-1>", self.clear_name)
 
         self.family = StringVar()
         self.txtfamily = Entry(self.screen, textvariable=self.family)
         self.txtfamily.configure(bg="white", fg="black", bd=3, justify="center")
-        self.txtfamily.place(x=300, y=100)
+        self.txtfamily.place(x=100, y=120)
         self.family.set("Family")
         self.txtfamily.bind("<Button-1>", self.clear_family)
 
         self.filde = StringVar()
         self.txtfilde= Entry(self.screen, textvariable=self.filde)
         self.txtfilde.configure(bg="white", fg="black", bd=3, justify="center")
-        self.txtfilde.place(x=300, y=150)
+        self.txtfilde.place(x=100, y=170)
         self.filde.set("Filed")
         self.txtfilde.bind("<Button-1>", self.clear_filed)
 
         self.age = StringVar()
         self.txtage = Entry(self.screen, textvariable=self.age)
         self.txtage.configure(bg="white", fg="black", bd=3, justify="center")
-        self.txtage.place(x=300, y=200)
+        self.txtage.place(x=100, y=220)
         self.age.set("Year")
         self.txtage.bind("<Button-1>", self.clear_age)
 
@@ -74,6 +79,21 @@ class App(Frame):
 
         btnscreen = Button(self.screen, text="Register", width=15, command=self.OneClickedRegister)
         btnscreen.configure(bg="green", fg="black", bd=3, justify="center")
-        btnscreen.place(x=310, y=250)
+        btnscreen.place(x=110, y=270)
 
+        # table
+
+        table = ttk.Treeview(self.screen, columns=("Name", "Family", "Filed", "Age"), show="headings")
+
+        table.heading("Name", text="Name")
+        table.heading("Family", text="Family")
+        table.heading("Filed", text="Filed")
+        table.heading("Age", text="Age")
+
+        table.column("Name", anchor="center", width="100")
+        table.column("Family", anchor="center", width="100")
+        table.column("Filed", anchor="center", width="100")
+        table.column("Age", anchor="center", width="100")
+
+        table.place(x=320, y=70)
 
