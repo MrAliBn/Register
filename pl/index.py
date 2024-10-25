@@ -77,6 +77,21 @@ class App(Frame):
             sel = (str(item),)
             self.table.delete(sel)
 
+    def ClickTable(self, e):
+        selection = self.table.selection()
+        if selection != ():
+            self.name.set(self.table.item(selection)['values'][1])
+            self.family.set(self.table.item(selection)['values'][2])
+            self.filde.set(self.table.item(selection)['values'][3])
+            self.age.set(self.table.item(selection)['values'][4])
+
+            # btn place
+
+            self.btnscreen.place_forget()
+            self.btnedit.place(x=100, y=250)
+            self.btndelete.place(x=200, y=250)
+            self.btncancel.place(x=150, y=290)
+
     # screen text
     def text_screen(self):
         self.name = StringVar()
@@ -120,21 +135,18 @@ class App(Frame):
         self.btnedit = Button(self.screen, text="Edit", width=5)
         self.btnedit.configure(bg="blue", fg="black", bd=1, justify="center")
         self.btnedit.place_forget()
-        # self.btnedit.place(x=100, y=250)
 
         # Delete Button
 
         self.btndelete = Button(self.screen, text="Delete", width=5)
         self.btndelete.configure(bg="red", fg="black", bd=1, justify="center")
         self.btndelete.place_forget()
-        # self.btndelete.place(x=200, y=250)
 
         # Cancel Button
 
         self.btncancel = Button(self.screen, text="Cansel", width=5, command=self.OneClickedCancel)
         self.btncancel.configure(bg="#bebebe", fg="black", bd=1, justify="center")
         self.btncancel.place_forget()
-        # self.btncancel.place(x=150, y=290)
 
         # table
 
@@ -151,6 +163,8 @@ class App(Frame):
         self.table.column("Family", anchor="center", width="100")
         self.table.column("Filed", anchor="center", width="100")
         self.table.column("Age", anchor="center", width="100")
+
+        self.table.bind("<Button-1>", self.ClickTable)
 
         self.table.place(x=320, y=70)
 
