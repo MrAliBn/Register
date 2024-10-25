@@ -38,12 +38,16 @@ class App(Frame):
     def OneClickedCancel(self):
         self.name.set("Username")
         self.family.set("Family")
-        self.filde.set("Filde")
+        self.filde.set("Filed")
         self.age.set("Year")
-        self.btnscreen.place(x=110, y=270)
+        self.search.set("Search Name ...")
+        self.btnscreen.place(x=90, y=270)
+        self.btnsearch.place(x=330, y=7)
         self.btndelete.place_forget()
         self.btnedit.place_forget()
         self.btncancel.place_forget()
+        self.clear_table()
+        self.insert_table()
 
     # Delete
 
@@ -56,11 +60,40 @@ class App(Frame):
                 messagebox.showinfo("Deleted", "Deleted")
                 self.clear_table()
                 self.insert_table()
+
+    # Update
+
+    def OneClickedEdite(self):
+        r = Register_User(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(), self.txtage.get())
+        s = messagebox.askyesno("Warning", "Are you sure you want to edite?")
+        if s:
+            result = r.update_user(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(),
+                                   self.txtage.get(), self.txtid.get())
+            if result:
+                messagebox.showinfo("Edited", "Edited")
+                self.clear_table()
+                self.insert_table()
+
+    def OneClickSearch(self):
+        r = Register_User(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(), self.txtage.get())
+        result = r.search_user(self.txtsearch.get())
+        if result == []:
+            messagebox.showerror("Error", "Search failed")
+        else:
+            self.clear_table()
+            self.btncancel.place(x=330, y=7)
+            self.btnsearch.place_forget()
+            for item in result:
+                self.table.insert("", "end", values=item)
         # clear
 
     def clear_name(self, e):
         if self.name.get() == "Username":
             self.name.set('')
+
+    def clear_search(self, e):
+        if self.search.get() == "Search Name ...":
+            self.search.set('')
 
     def clear_family(self, e):
         if self.family.get() == "Family":
@@ -100,37 +133,45 @@ class App(Frame):
             # btn place
 
             self.btnscreen.place_forget()
-            self.btnedit.place(x=100, y=250)
-            self.btndelete.place(x=200, y=250)
-            self.btncancel.place(x=150, y=290)
+            self.btnedit.place(x=80, y=250)
+            self.btndelete.place(x=180, y=250)
+            self.btncancel.place(x=130, y=290)
 
     # screen text
     def text_screen(self):
+
+        self.search = StringVar()
+        self.txtsearch = Entry(self.screen, textvariable=self.search)
+        self.txtsearch.configure(bg="white", fg="black", bd=3, justify="center", width=38)
+        self.txtsearch.place(x=10, y=10)
+        self.search.set("Search Name ...")
+        self.txtsearch.bind("<Button-1>", self.clear_search)
+
         self.name = StringVar()
         self.txtname = Entry(self.screen, textvariable=self.name)
         self.txtname.configure(bg="white", fg="black", bd=3, justify="center")
-        self.txtname.place(x=100, y=70)
+        self.txtname.place(x=80, y=70)
         self.name.set("Username")
         self.txtname.bind("<Button-1>", self.clear_name)
 
         self.family = StringVar()
         self.txtfamily = Entry(self.screen, textvariable=self.family)
         self.txtfamily.configure(bg="white", fg="black", bd=3, justify="center")
-        self.txtfamily.place(x=100, y=120)
+        self.txtfamily.place(x=80, y=120)
         self.family.set("Family")
         self.txtfamily.bind("<Button-1>", self.clear_family)
 
         self.filde = StringVar()
         self.txtfilde= Entry(self.screen, textvariable=self.filde)
         self.txtfilde.configure(bg="white", fg="black", bd=3, justify="center")
-        self.txtfilde.place(x=100, y=170)
+        self.txtfilde.place(x=80, y=170)
         self.filde.set("Filed")
         self.txtfilde.bind("<Button-1>", self.clear_filed)
 
         self.age = StringVar()
         self.txtage = Entry(self.screen, textvariable=self.age)
         self.txtage.configure(bg="white", fg="black", bd=3, justify="center")
-        self.txtage.place(x=100, y=220)
+        self.txtage.place(x=80, y=220)
         self.age.set("Year")
         self.txtage.bind("<Button-1>", self.clear_age)
 
@@ -144,11 +185,11 @@ class App(Frame):
 
         self.btnscreen = Button(self.screen, text="Register", width=15, command=self.OneClickedRegister)
         self.btnscreen.configure(bg="green", fg="black", bd=3, justify="center")
-        self.btnscreen.place(x=110, y=270)
+        self.btnscreen.place(x=90, y=270)
 
         # Edit Button
 
-        self.btnedit = Button(self.screen, text="Edit", width=5)
+        self.btnedit = Button(self.screen, text="Edit", width=5, command=self.OneClickedEdite)
         self.btnedit.configure(bg="blue", fg="black", bd=1, justify="center")
         self.btnedit.place_forget()
 
@@ -163,6 +204,12 @@ class App(Frame):
         self.btncancel = Button(self.screen, text="Cansel", width=5, command=self.OneClickedCancel)
         self.btncancel.configure(bg="#bebebe", fg="black", bd=1, justify="center")
         self.btncancel.place_forget()
+
+        # Search Button
+
+        self.btnsearch= Button(self.screen, text="Search", width=5, command=self.OneClickSearch)
+        self.btnsearch.configure(bg="white", fg="black", bd=1, justify="center")
+        self.btnsearch.place(x=330, y=7)
 
         # table
 

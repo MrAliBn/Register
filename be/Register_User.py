@@ -38,3 +38,18 @@ class Register_User:
         cursor.close()
         return True
 
+    def update_user(self, name, family, filde, age, id):
+        cursor = connection.cursor()
+        sql_insert_query = """UPDATE Register_User set name = %s, family = %s, filde = %s, age = %s where id = %s"""
+        cursor.execute(sql_insert_query, (name, family, filde, age, id))
+        connection.commit()
+        cursor.close()
+        return True
+
+    def search_user(self, name):
+        cursor = connection.cursor()
+        sql_insert_query = """select * from Register_User where name = %s"""
+        cursor.execute(sql_insert_query, (name,))
+        records = cursor.fetchall()
+        return records
+
