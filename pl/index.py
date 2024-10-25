@@ -8,8 +8,11 @@ class App(Frame):
         super().__init__(screen)
         self.screen = screen
         self.text_screen()
+        self.insert_table()
 
     # function
+
+    # Register
     def OneClickedRegister(self):
         if self.name.get() == "Username" or self.txtname.get() == '' or not self.txtname.get().isalpha():
             messagebox.showerror("Error", "Please enter your name is alpha")
@@ -27,8 +30,11 @@ class App(Frame):
             user = Register_User(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(), self.txtage.get())
             user.add_user()
             messagebox.showinfo("Registered", "Registered")
+            self.clear_table()
+            self.insert_table()
 
         # clear
+
     def clear_name(self, e):
         if self.name.get() == "Username":
             self.name.set('')
@@ -45,7 +51,21 @@ class App(Frame):
         if self.age.get() == "Year":
             self.age.set('')
 
-# screen text
+    # insert table
+
+    def insert_table(self):
+        r = Register_User(self.name.get(), self.family.get(), self.filde.get(), self.txtage.get())
+        result = r.all_users()
+        for item in result:
+            self.table.insert("", "end", values=item)
+
+    def clear_table(self):
+        result = self.table.get_children()
+        for item in result:
+            sel = (str(item),)
+            self.table.delete(sel)
+
+    # screen text
     def text_screen(self):
         self.name = StringVar()
         self.txtname = Entry(self.screen, textvariable=self.name)
@@ -77,23 +97,29 @@ class App(Frame):
 
         # Button Screen
 
-        btnscreen = Button(self.screen, text="Register", width=15, command=self.OneClickedRegister)
-        btnscreen.configure(bg="green", fg="black", bd=3, justify="center")
-        btnscreen.place(x=110, y=270)
+        # Register Button
+
+        self.btnscreen = Button(self.screen, text="Register", width=15, command=self.OneClickedRegister)
+        self.btnscreen.configure(bg="green", fg="black", bd=3, justify="center")
+        self.btnscreen.place(x=110, y=270)
+
 
         # table
 
-        table = ttk.Treeview(self.screen, columns=("Name", "Family", "Filed", "Age"), show="headings")
+        self.table = ttk.Treeview(self.screen, columns=("Row", "Name", "Family", "Filed", "Age"), show="headings")
 
-        table.heading("Name", text="Name")
-        table.heading("Family", text="Family")
-        table.heading("Filed", text="Filed")
-        table.heading("Age", text="Age")
+        self.table.heading("Name", text="Name")
+        self.table.heading("Row", text="Row")
+        self.table.heading("Family", text="Family")
+        self.table.heading("Filed", text="Filed")
+        self.table.heading("Age", text="Age")
 
-        table.column("Name", anchor="center", width="100")
-        table.column("Family", anchor="center", width="100")
-        table.column("Filed", anchor="center", width="100")
-        table.column("Age", anchor="center", width="100")
+        self.table.column("Row", anchor="center", width="50")
+        self.table.column("Name", anchor="center", width="100")
+        self.table.column("Family", anchor="center", width="100")
+        self.table.column("Filed", anchor="center", width="100")
+        self.table.column("Age", anchor="center", width="100")
 
-        table.place(x=320, y=70)
+        self.table.place(x=320, y=70)
+
 
