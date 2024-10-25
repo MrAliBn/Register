@@ -33,6 +33,18 @@ class App(Frame):
             self.clear_table()
             self.insert_table()
 
+    # Cancel
+
+    def OneClickedCancel(self):
+        self.name.set("Username")
+        self.family.set("Family")
+        self.filde.set("Filde")
+        self.age.set("Year")
+        self.btnscreen.place(x=110, y=270)
+        self.btndelete.place_forget()
+        self.btnedit.place_forget()
+        self.btncancel.place_forget()
+
         # clear
 
     def clear_name(self, e):
@@ -103,6 +115,26 @@ class App(Frame):
         self.btnscreen.configure(bg="green", fg="black", bd=3, justify="center")
         self.btnscreen.place(x=110, y=270)
 
+        # Edit Button
+
+        self.btnedit = Button(self.screen, text="Edit", width=5)
+        self.btnedit.configure(bg="blue", fg="black", bd=1, justify="center")
+        self.btnedit.place_forget()
+        # self.btnedit.place(x=100, y=250)
+
+        # Delete Button
+
+        self.btndelete = Button(self.screen, text="Delete", width=5)
+        self.btndelete.configure(bg="red", fg="black", bd=1, justify="center")
+        self.btndelete.place_forget()
+        # self.btndelete.place(x=200, y=250)
+
+        # Cancel Button
+
+        self.btncancel = Button(self.screen, text="Cansel", width=5, command=self.OneClickedCancel)
+        self.btncancel.configure(bg="#bebebe", fg="black", bd=1, justify="center")
+        self.btncancel.place_forget()
+        # self.btncancel.place(x=150, y=290)
 
         # table
 
