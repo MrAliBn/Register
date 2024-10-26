@@ -53,3 +53,8 @@ class Register_User:
         records = cursor.fetchall()
         return records
 
+    def check_user(self, name, family):
+        for i in self.all_users():
+            if i[1] == name and i[2] == family:
+                return False
+            return True

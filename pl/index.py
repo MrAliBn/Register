@@ -28,10 +28,16 @@ class App(Frame):
             self.txtage.focus()
         else:
             user = Register_User(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(), self.txtage.get())
-            user.add_user()
-            messagebox.showinfo("Registered", "Registered")
-            self.clear_table()
-            self.insert_table()
+            result = user.check_user(self.txtname.get(), self.txtfamily.get())
+            if result:
+                user.add_user()
+                messagebox.showinfo("Registered", "Registered")
+                self.clear_table()
+                self.insert_table()
+                self.OneClickedCancel()
+                self.txtname.focus_set()
+            else:
+                messagebox.showerror("Error", "The user is already registered")
 
     # Cancel
 
@@ -69,15 +75,19 @@ class App(Frame):
         if s:
             result = r.update_user(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(),
                                    self.txtage.get(), self.txtid.get())
+            result1 = r.check_user(self.txtname.get(), self.txtfamily.get())
             if result:
-                messagebox.showinfo("Edited", "Edited")
-                self.clear_table()
-                self.insert_table()
+                if result1:
+                    messagebox.showinfo("Edited", "Edited")
+                    self.clear_table()
+                    self.insert_table()
+                else:
+                    messagebox.showerror("Error", "The user is already registered")
 
     def OneClickSearch(self):
         r = Register_User(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(), self.txtage.get())
         result = r.search_user(self.txtsearch.get())
-        if result == []:
+        if not result:
             messagebox.showerror("Error", "Search failed")
         else:
             self.clear_table()
@@ -118,8 +128,7 @@ class App(Frame):
     def clear_table(self):
         result = self.table.get_children()
         for item in result:
-            sel = (str(item),)
-            self.table.delete(sel)
+            self.table.delete(item)
 
     def ClickTable(self, e):
         selection = self.table.selection()
