@@ -32,7 +32,7 @@ class App(Frame):
             if result:
                 user.add_user()
                 messagebox.showinfo("Registered", "Registered")
-                self.clear_table()
+                self.clean_table()
                 self.insert_table()
                 self.OneClickedCancel()
                 self.txtname.focus_set()
@@ -52,7 +52,7 @@ class App(Frame):
         self.btndelete.place_forget()
         self.btnedit.place_forget()
         self.btncancel.place_forget()
-        self.clear_table()
+        self.clean_table()
         self.insert_table()
 
     # Delete
@@ -64,7 +64,7 @@ class App(Frame):
             result = r.delete_user(int(self.id.get()))
             if result:
                 messagebox.showinfo("Deleted", "Deleted")
-                self.clear_table()
+                self.clean_table()
                 self.insert_table()
 
     # Update
@@ -79,7 +79,7 @@ class App(Frame):
             if result:
                 if result1:
                     messagebox.showinfo("Edited", "Edited")
-                    self.clear_table()
+                    self.clean_table()
                     self.insert_table()
                 else:
                     messagebox.showerror("Error", "The user is already registered")
@@ -90,30 +90,31 @@ class App(Frame):
         if not result:
             messagebox.showerror("Error", "Search failed")
         else:
-            self.clear_table()
+            self.clean_table()
             self.btncancel.place(x=330, y=7)
             self.btnsearch.place_forget()
             for item in result:
                 self.table.insert("", "end", values=item)
-        # clear
 
-    def clear_name(self, e):
+        # clean text box
+
+    def clean_name(self, e):
         if self.name.get() == "Username":
             self.name.set('')
 
-    def clear_search(self, e):
+    def clean_search(self, e):
         if self.search.get() == "Search Name ...":
             self.search.set('')
 
-    def clear_family(self, e):
+    def clean_family(self, e):
         if self.family.get() == "Family":
             self.family.set('')
 
-    def clear_filed(self, e):
+    def clean_filed(self, e):
         if self.filde.get() == "Filed":
             self.filde.set('')
 
-    def clear_age(self, e):
+    def clean_age(self, e):
         if self.age.get() == "Year":
             self.age.set('')
 
@@ -125,7 +126,9 @@ class App(Frame):
         for item in result:
             self.table.insert("", "end", values=item)
 
-    def clear_table(self):
+    # clean table
+
+    def clean_table(self):
         result = self.table.get_children()
         for item in result:
             self.table.delete(item)
@@ -133,11 +136,11 @@ class App(Frame):
     def ClickTable(self, e):
         selection = self.table.selection()
         if selection != ():
-            self.id.set(self.table.item(selection)['values'][0])
-            self.name.set(self.table.item(selection)['values'][1])
-            self.family.set(self.table.item(selection)['values'][2])
-            self.filde.set(self.table.item(selection)['values'][3])
-            self.age.set(self.table.item(selection)['values'][4])
+            self.id.set(self.table.item(str(selection))['values'][0])
+            self.name.set(self.table.item(str(selection))['values'][1])
+            self.family.set(self.table.item(str(selection))['values'][2])
+            self.filde.set(self.table.item(str(selection))['values'][3])
+            self.age.set(self.table.item(str(selection))['values'][4])
 
             # btn place
 
@@ -154,35 +157,35 @@ class App(Frame):
         self.txtsearch.configure(bg="white", fg="black", bd=3, justify="center", width=38)
         self.txtsearch.place(x=10, y=10)
         self.search.set("Search Name ...")
-        self.txtsearch.bind("<Button-1>", self.clear_search)
+        self.txtsearch.bind("<Button-1>", self.clean_search)
 
         self.name = StringVar()
         self.txtname = Entry(self.screen, textvariable=self.name)
         self.txtname.configure(bg="white", fg="black", bd=3, justify="center")
         self.txtname.place(x=80, y=70)
         self.name.set("Username")
-        self.txtname.bind("<Button-1>", self.clear_name)
+        self.txtname.bind("<Button-1>", self.clean_name)
 
         self.family = StringVar()
         self.txtfamily = Entry(self.screen, textvariable=self.family)
         self.txtfamily.configure(bg="white", fg="black", bd=3, justify="center")
         self.txtfamily.place(x=80, y=120)
         self.family.set("Family")
-        self.txtfamily.bind("<Button-1>", self.clear_family)
+        self.txtfamily.bind("<Button-1>", self.clean_family)
 
         self.filde = StringVar()
-        self.txtfilde= Entry(self.screen, textvariable=self.filde)
+        self.txtfilde = Entry(self.screen, textvariable=self.filde)
         self.txtfilde.configure(bg="white", fg="black", bd=3, justify="center")
         self.txtfilde.place(x=80, y=170)
         self.filde.set("Filed")
-        self.txtfilde.bind("<Button-1>", self.clear_filed)
+        self.txtfilde.bind("<Button-1>", self.clean_filed)
 
         self.age = StringVar()
         self.txtage = Entry(self.screen, textvariable=self.age)
         self.txtage.configure(bg="white", fg="black", bd=3, justify="center")
         self.txtage.place(x=80, y=220)
         self.age.set("Year")
-        self.txtage.bind("<Button-1>", self.clear_age)
+        self.txtage.bind("<Button-1>", self.clean_age)
 
         self.id = StringVar()
         self.txtid = Entry(self.screen, textvariable=self.id)
@@ -216,7 +219,7 @@ class App(Frame):
 
         # Search Button
 
-        self.btnsearch= Button(self.screen, text="Search", width=5, command=self.OneClickSearch)
+        self.btnsearch = Button(self.screen, text="Search", width=5, command=self.OneClickSearch)
         self.btnsearch.configure(bg="white", fg="black", bd=1, justify="center")
         self.btnsearch.place(x=330, y=7)
 
@@ -230,14 +233,12 @@ class App(Frame):
         self.table.heading("Filed", text="Filed")
         self.table.heading("Age", text="Age")
 
-        self.table.column("Row", anchor="center", width="50")
-        self.table.column("Name", anchor="center", width="100")
-        self.table.column("Family", anchor="center", width="100")
-        self.table.column("Filed", anchor="center", width="100")
-        self.table.column("Age", anchor="center", width="100")
+        self.table.column("Row", anchor="center", width=50)
+        self.table.column("Name", anchor="center", width=100)
+        self.table.column("Family", anchor="center", width=100)
+        self.table.column("Filed", anchor="center", width=100)
+        self.table.column("Age", anchor="center", width=100)
 
         self.table.bind("<Button-1>", self.ClickTable)
 
         self.table.place(x=320, y=70)
-
-
