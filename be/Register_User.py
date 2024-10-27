@@ -15,7 +15,7 @@ class Register_User:
         self.filed = filed
         self.age = age
 
-    def add_user(self):
+    def Add(self):
         cursor = connection.cursor()
         sql_insert_query = """INSERT INTO Register_User (name, family, filde, age) 
                                       VALUES (%s, %s, %s, %s)"""
@@ -30,7 +30,7 @@ class Register_User:
         records = cursor.fetchall()
         return records
 
-    def delete_user(self, id):
+    def Delete(self, id):
         cursor = connection.cursor()
         sql_insert_query = """DELETE from Register_User where id = %s"""
         cursor.execute(sql_insert_query, (id,))
@@ -38,7 +38,7 @@ class Register_User:
         cursor.close()
         return True
 
-    def update_user(self, name, family, filde, age, id):
+    def Update(self, name, family, filde, age, id):
         cursor = connection.cursor()
         sql_insert_query = """UPDATE Register_User set name = %s, family = %s, filde = %s, age = %s where id = %s"""
         cursor.execute(sql_insert_query, (name, family, filde, age, id))
@@ -46,15 +46,16 @@ class Register_User:
         cursor.close()
         return True
 
-    def search_user(self, name):
+    def Search(self, name):
         cursor = connection.cursor()
         sql_insert_query = """select * from Register_User where name = %s"""
         cursor.execute(sql_insert_query, (name,))
         records = cursor.fetchall()
         return records
 
-    def check_user(self, name, family):
+    def Exist(self, name, family, filde, age):
         for i in self.all_users():
-            if i[1] == name and i[2] == family:
+            if i[1] == name and i[2] == family and i[3] == filde and i[4] == int(age):
                 return False
-            return True
+        return True
+
