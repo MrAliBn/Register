@@ -9,6 +9,7 @@ class App(Frame):
         self.screen = screen
         self.text_screen()
         self.insert_table()
+        self.ValuesAge()
 
     # function
 
@@ -23,19 +24,19 @@ class App(Frame):
         elif self.filde.get() == "Filed" or self.txtfilde.get() == '' or not self.txtfilde.get().isalpha():
             messagebox.showerror("Error", "Please enter your filed is alpha")
             self.txtfilde.focus()
-        elif self.age.get() == "Year" or self.txtage.get() == '' or not self.txtage.get().isdigit():
-            messagebox.showerror("Error", "Please enter your age is digit")
-            self.txtage.focus()
         else:
             user = Register_User(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(), self.txtage.get())
             result = user.check_user(self.txtname.get(), self.txtfamily.get())
             if result:
-                user.add_user()
-                messagebox.showinfo("Registered", "Registered")
-                self.clean_table()
-                self.insert_table()
-                self.OneClickedCancel()
-                self.txtname.focus_set()
+                if int(self.txtage.get()) >= 18:
+                    user.add_user()
+                    messagebox.showinfo("Registered", "Registered")
+                    self.clean_table()
+                    self.insert_table()
+                    self.OneClickedCancel()
+                    self.txtname.focus_set()
+                else:
+                    messagebox.showerror("Error", "Your age is less than 18 years")
             else:
                 messagebox.showerror("Error", "The user is already registered")
 
@@ -45,7 +46,7 @@ class App(Frame):
         self.name.set("Username")
         self.family.set("Family")
         self.filde.set("Filed")
-        self.age.set("Year")
+        self.txtage.set(0)
         self.search.set("Search Name ...")
         self.btnscreen.place(x=90, y=270)
         self.btnsearch.place(x=330, y=7)
@@ -114,10 +115,6 @@ class App(Frame):
         if self.filde.get() == "Filed":
             self.filde.set('')
 
-    def clean_age(self, e):
-        if self.age.get() == "Year":
-            self.age.set('')
-
     # insert table
 
     def insert_table(self):
@@ -133,6 +130,15 @@ class App(Frame):
         for item in result:
             self.table.delete(item)
 
+    # Age function
+
+    def ValuesAge(self):
+        num = []
+        for i in range(18, 51):
+            num.append(i)
+        return num
+
+
     def ClickTable(self, e):
         selection = self.table.selection()
         if selection != ():
@@ -140,7 +146,6 @@ class App(Frame):
             self.name.set(self.table.item(str(selection))['values'][1])
             self.family.set(self.table.item(str(selection))['values'][2])
             self.filde.set(self.table.item(str(selection))['values'][3])
-            self.age.set(self.table.item(str(selection))['values'][4])
 
             # btn place
 
@@ -180,12 +185,11 @@ class App(Frame):
         self.filde.set("Filed")
         self.txtfilde.bind("<Button-1>", self.clean_filed)
 
-        self.age = StringVar()
-        self.txtage = Entry(self.screen, textvariable=self.age)
-        self.txtage.configure(bg="white", fg="black", bd=3, justify="center")
+        self.txtage = ttk.Combobox(self.screen, background="white", foreground="black", justify="center",
+                                   state="readonly")
+        self.txtage.set(0)
+        self.txtage['values'] = self.ValuesAge()
         self.txtage.place(x=80, y=220)
-        self.age.set("Year")
-        self.txtage.bind("<Button-1>", self.clean_age)
 
         self.id = StringVar()
         self.txtid = Entry(self.screen, textvariable=self.id)
