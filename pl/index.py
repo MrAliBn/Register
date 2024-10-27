@@ -26,10 +26,10 @@ class App(Frame):
             self.txtfilde.focus()
         else:
             user = Register_User(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(), self.txtage.get())
-            result = user.check_user(self.txtname.get(), self.txtfamily.get())
+            result = user.Exist(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(), self.txtage.get())
             if result:
                 if int(self.txtage.get()) >= 18:
-                    user.add_user()
+                    user.Add()
                     messagebox.showinfo("Registered", "Registered")
                     self.clean_table()
                     self.insert_table()
@@ -62,7 +62,7 @@ class App(Frame):
         r = Register_User(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(), self.txtage.get())
         s = messagebox.askyesno("Warning", f"Are you sure you want to delete? {self.id.get()} {self.txtname.get()}")
         if s:
-            result = r.delete_user(int(self.id.get()))
+            result = r.Delete(int(self.id.get()))
             if result:
                 messagebox.showinfo("Deleted", "Deleted")
                 self.clean_table()
@@ -74,20 +74,20 @@ class App(Frame):
         r = Register_User(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(), self.txtage.get())
         s = messagebox.askyesno("Warning", "Are you sure you want to edite?")
         if s:
-            result = r.update_user(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(),
-                                   self.txtage.get(), self.txtid.get())
-            result1 = r.check_user(self.txtname.get(), self.txtfamily.get())
-            if result:
-                if result1:
+            result1 = r.Exist(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(), self.txtage.get())
+            if result1:
+                result = r.Update(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(),
+                                  self.txtage.get(), self.txtid.get())
+                if result:
                     messagebox.showinfo("Edited", "Edited")
                     self.clean_table()
                     self.insert_table()
-                else:
-                    messagebox.showerror("Error", "The user is already registered")
+            else:
+                messagebox.showerror("Error", "The user is already registered")
 
     def OneClickSearch(self):
         r = Register_User(self.txtname.get(), self.txtfamily.get(), self.txtfilde.get(), self.txtage.get())
-        result = r.search_user(self.txtsearch.get())
+        result = r.Search(self.txtsearch.get())
         if not result:
             messagebox.showerror("Error", "Search failed")
         else:
@@ -138,14 +138,14 @@ class App(Frame):
             num.append(i)
         return num
 
-
     def ClickTable(self, e):
         selection = self.table.selection()
         if selection != ():
-            self.id.set(self.table.item(str(selection))['values'][0])
-            self.name.set(self.table.item(str(selection))['values'][1])
-            self.family.set(self.table.item(str(selection))['values'][2])
-            self.filde.set(self.table.item(str(selection))['values'][3])
+            self.id.set(self.table.item(selection)['values'][0])
+            self.name.set(self.table.item(selection)['values'][1])
+            self.family.set(self.table.item(selection)['values'][2])
+            self.filde.set(self.table.item(selection)['values'][3])
+            self.txtage.set(self.table.item(selection)['values'][4])
 
             # btn place
 
